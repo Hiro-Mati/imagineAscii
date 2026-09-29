@@ -16,11 +16,30 @@ int main(const int argc, char** argv) {
     }
 
     const std::filesystem::path fileName{argv[1]};
-    const int targetWidth = std::stoi(argv[2]);
 
-    const image::Image image{fileName};
+    int targetWidth;
+    try {
+        std::size_t parsed = 0;
+        targetWidth = std::stoi(argv[2], &parsed);
 
-    image.printImage(targetWidth);
+        if (parsed != std::string{argv[2]}.size() || targetWidth <= 0) {
+            throw std::invalid_argument{"not a positive integer"};
+        }
+    } catch (const std::exception &) {
+        std::cerr << "Error: <width> must be a positive integer\n";
+
+        return 1;
+    }
+
+    try {
+        const image::Image image{fileName};
+
+        image.printImage(targetWidth);
+    } catch (const std::exception &e) {
+        std::cerr << "Error: " << e.what() << '\n';
+
+        return 1;
+    }
 
     return EXIT_SUCCESS;
 }

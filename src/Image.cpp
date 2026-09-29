@@ -23,6 +23,13 @@ namespace image {
             &this->m_size.channels,
             desiredChannels
         );
+
+        if (data == nullptr) {
+            throw std::runtime_error{
+                std::string{"Failed to load image: "} + stbi_failure_reason()
+            };
+        }
+
         this->m_pixels.reserve(this->m_size.getPixelsCount());
 
         const int x = this->m_size.width;
