@@ -25,24 +25,14 @@ namespace image {
         );
         this->m_pixels.reserve(this->m_size.getPixelsCount());
 
-        const int x = this->m_size.width;
-        const int y = this->m_size.height;
+        const std::size_t pixelsCount = this->m_size.getPixelsCount();
 
-        for (int yPos = 0; yPos < y; yPos++) {
-            for (int xPos = 0; xPos < x; xPos++) {
-                const std::size_t i = yPos * x + xPos;
-                Pixel pixel{
-                    .position = {
-                        .x = static_cast<std::size_t>(xPos),
-                        .y = static_cast<std::size_t>(yPos),
-                    },
-                    .r = data[i * desiredChannels],
-                    .g = data[i * desiredChannels + 1],
-                    .b = data[i * desiredChannels + 2]
-                };
-
-                this->m_pixels.push_back(pixel);
-            }
+        for (std::size_t i = 0; i < pixelsCount; i++) {
+            this->m_pixels.push_back(Pixel{
+                .r = data[i * desiredChannels],
+                .g = data[i * desiredChannels + 1],
+                .b = data[i * desiredChannels + 2]
+            });
         }
 
         stbi_image_free(data);

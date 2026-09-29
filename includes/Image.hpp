@@ -16,13 +16,7 @@ namespace image {
         }
     };
 
-    struct Position {
-        std::size_t x;
-        std::size_t y;
-    };
-
     struct Pixel {
-        Position position{.x = 0, .y = 0};
         std::uint8_t r{0};
         std::uint8_t g{0};
         std::uint8_t b{0};
@@ -35,7 +29,7 @@ namespace image {
 
         void printImage(int targetWidth) const;
 
-        [[nodiscard]] std::vector<Pixel> getPixels() const {
+        [[nodiscard]] const std::vector<Pixel> &getPixels() const {
             return m_pixels;
         };
 
